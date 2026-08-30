@@ -1,0 +1,47 @@
+# Caviar price index — listing configuration
+#
+# This is the only file you edit to add or remove a tracked listing.
+# One entry per LISTING, not per brand (protocol R6).
+
+# Identify yourself honestly. You may publish this work one day; you want the
+# access logs to show a polite researcher with a contact address.
+user_agent: "caviar-price-index/1.0 (research project; contact: david.szarzynski@gmail.com)"
+contact_email: "david.szarzynski@gmail.com"
+
+# Seconds between requests, plus up to 50% random jitter. Do not lower this.
+# You are making a handful of requests per day; there is no reason to hurry.
+delay_seconds: 20
+timeout_seconds: 30
+
+listings:
+  # ---------------------------------------------------------------------
+  # TEMPLATE — copy this block per listing, delete the example.
+  #
+  # id                : filename-safe, unique, stable forever. Snapshots are
+  #                     named from it, so never rename one after first run.
+  # vendor_name       : who is selling it
+  # url               : the exact product page
+  # brand_as_listed   : the brand as the LISTING states it (verbatim, R3)
+  # species_as_listed : verbatim from the listing, not normalized
+  # grade_as_listed   : verbatim ("Reserve", "Royal", "Classic", ...)
+  # origin_as_listed  : verbatim country/region claim
+  # net_weight_g      : grams, for price-per-gram
+  # selectors         : OPTIONAL. Only needed if the site has no JSON-LD
+  #                     Product markup. Try without first — most Shopify,
+  #                     WooCommerce and BigCommerce stores emit it.
+  # ---------------------------------------------------------------------
+
+  - id: example-vendor-osetra-30g
+    vendor_name: "Example Vendor"
+    url: "https://example.com/products/osetra-30g"
+    brand_as_listed: "Example Brand"
+    species_as_listed: "Ossetra"
+    grade_as_listed: "Reserve"
+    origin_as_listed: "Italy"
+    net_weight_g: 30
+    selectors:
+      name: "h1.product-title"
+      sale_price: ".price--sale, .price"
+      list_price: ".price--compare-at"
+      description: ".product-description"
+      sold_out_marker: ".sold-out-badge"
