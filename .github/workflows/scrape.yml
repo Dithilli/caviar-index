@@ -38,6 +38,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r scraper/requirements.txt
 
+      - name: Install Playwright browser
+        run: |
+          if grep -q "fetch_mode: browser" scraper/vendors.yaml; then
+            playwright install --with-deps chromium
+          fi
+
       - name: Run scraper
         run: python scraper/scrape.py
 

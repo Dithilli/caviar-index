@@ -1,0 +1,42 @@
+name: flags
+
+on:
+  schedule:
+    # Weekly, Mondays 16:10 UTC — after the scrape and discovery slots.
+    - cron: "10 16 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  flags:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compute 2c/2d flags
+        id: flags
+        run: |
+          python scraper/flags.py | tee flags-report.md
+          if grep -q "^## Sampling-rule flags" flags-report.md; then
+            echo "fired=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open issue when flags fired
+        if: steps.flags.outputs.fired == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "Sampling-rule flags $(date -u +%Y-%m-%d)" \
+            --body-file flags-report.md

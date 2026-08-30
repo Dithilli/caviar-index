@@ -101,3 +101,6 @@ sitemaps of every tracked domain for caviar-ish product URLs not yet tracked
 and appends candidates to `data/discovery-log.csv` (append-only, audited like
 the price log). It reports; it never edits `vendors.yaml` — adding a listing
 stays a deliberate operator act, with claims recorded verbatim by hand.
+- **Browser-mode listings**: `fetch_mode: browser` on a listing renders the
+  page in headless Chromium (same honest user agent, robots respected) and
+  archives the RENDERED DOM — for vendors whose price is injected client-side.

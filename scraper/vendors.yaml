@@ -324,3 +324,28 @@ listings:
     net_weight_g: 28
     selectors:
       sale_price: ".add-to-cart-price"
+
+  # US farm, Sacramento (§2f control candidate). Price renders client-side
+  # — first browser-mode listing (fetch_mode: browser archives the RENDERED
+  # DOM). JSON-LD hydrates in-browser: 30g default $117. Listing states:
+  # "Classic-grade, White Sturgeon caviar" and "full traceability - from
+  # our farm to your table ... CITES ... import/export permit".
+  - id: sterling-classic-caviar-30g
+    vendor_name: "Sterling Caviar"
+    url: "https://sterlingcaviar.com/products/classic-caviar"
+    brand_as_listed: "Sterling Caviar"
+    species_as_listed: "White Sturgeon"
+    grade_as_listed: "Classic"
+    net_weight_g: 30
+    fetch_mode: browser
+
+  # Shopify, JSON-LD Product — no selectors. offers[0] = 28g variant $132
+  # (name on page "Grand Reserve Ossetra Caviar"; handle says
+  # best-ossetra-reserve). Entity per own pages: Prime Fish LLC.
+  - id: kolikof-grand-reserve-ossetra-28g
+    vendor_name: "Kolikof"
+    url: "https://kolikof.com/products/best-ossetra-reserve"
+    brand_as_listed: "Kolikof"
+    species_as_listed: "Ossetra"
+    grade_as_listed: "Grand Reserve"
+    net_weight_g: 28

@@ -131,6 +131,53 @@ def robots_allows(url: str, user_agent: str, cache: dict, session):
 
 
 # ----------------------------------------------------------------------------
+# browser fetch (fetch_mode: browser listings)
+# ----------------------------------------------------------------------------
+
+_BROWSER: dict = {"pw": None, "browser": None, "ctx": None}
+
+
+def browser_fetch(url: str, cfg: dict):
+    """
+    Fetch a page with headless Chromium, for listings whose price renders
+    client-side (fetch_mode: browser in vendors.yaml). Returns
+    (status_code, rendered_html). The RENDERED DOM is what gets archived —
+    it is what a customer sees. Same honest user agent; robots.txt is
+    checked by the caller exactly as for plain fetches.
+    """
+    if _BROWSER["ctx"] is None:
+        from playwright.sync_api import sync_playwright
+        _BROWSER["pw"] = sync_playwright().start()
+        _BROWSER["browser"] = _BROWSER["pw"].chromium.launch(headless=True)
+        _BROWSER["ctx"] = _BROWSER["browser"].new_context(
+            user_agent=cfg["user_agent"])
+    page = _BROWSER["ctx"].new_page()
+    try:
+        resp = page.goto(url, timeout=cfg.get("timeout_seconds", 30) * 1000,
+                         wait_until="domcontentloaded")
+        page.wait_for_timeout(4000)
+        return (resp.status if resp else 0), page.content()
+    finally:
+        page.close()
+
+
+def close_browser():
+    for key in ("ctx", "browser"):
+        obj = _BROWSER.get(key)
+        if obj is not None:
+            try:
+                obj.close()
+            except Exception:
+                pass
+    if _BROWSER.get("pw") is not None:
+        try:
+            _BROWSER["pw"].stop()
+        except Exception:
+            pass
+    _BROWSER.update({"pw": None, "browser": None, "ctx": None})
+
+
+# ----------------------------------------------------------------------------
 # extraction
 # ----------------------------------------------------------------------------
 
@@ -263,15 +310,20 @@ def scrape_one(listing, cfg, session, robots_cache, day_dir, observed_at):
         return row
 
     # --- fetch ---------------------------------------------------------
+    fetch_mode = listing.get("fetch_mode", "requests")
     try:
-        resp = session.get(url, timeout=cfg.get("timeout_seconds", 30))
+        if fetch_mode == "browser":
+            status_code, page_text = browser_fetch(url, cfg)
+        else:
+            resp = session.get(url, timeout=cfg.get("timeout_seconds", 30))
+            status_code, page_text = resp.status_code, resp.text
     except Exception as exc:
         row["scrape_status"] = "fetch_error"
         row["notes"] = f"{type(exc).__name__}: {exc}"[:300]
         return row
 
-    if resp.status_code != 200:
-        row["scrape_status"] = f"http_{resp.status_code}"
+    if status_code != 200:
+        row["scrape_status"] = f"http_{status_code}"
         row["notes"] = "non-200 response"
         return row
 
@@ -284,7 +336,7 @@ def scrape_one(listing, cfg, session, robots_cache, day_dir, observed_at):
         stamp = observed_at[11:19].replace(":", "") + "Z"
         snap = day_dir / f"{listing['id']}_{stamp}.html"
     try:
-        snap.write_text(resp.text, encoding="utf-8")
+        snap.write_text(page_text, encoding="utf-8")
         row["snapshot_path"] = str(snap.relative_to(ROOT))
     except Exception as exc:
         row["scrape_status"] = "archive_error"
@@ -350,6 +402,8 @@ def scrape_one(listing, cfg, session, robots_cache, day_dir, observed_at):
     else:
         row["scrape_status"] = "ok"
         row["notes"] = f"extracted_via={method}"
+    if fetch_mode == "browser":
+        row["notes"] += "; fetch=browser"
 
     return row
 
@@ -402,6 +456,7 @@ def main():
         for row in rows:
             writer.writerow(row)
 
+    close_browser()
     ok = sum(1 for r in rows if r["scrape_status"] == "ok")
     print(f"\nWrote {len(rows)} observations ({ok} ok, {len(rows)-ok} flagged).")
     return 0
