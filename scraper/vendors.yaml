@@ -349,3 +349,53 @@ listings:
     species_as_listed: "Ossetra"
     grade_as_listed: "Grand Reserve"
     net_weight_g: 28
+
+  # ---- 2026-08-30 ad wave 2/3 new vendors (§2a) ----
+
+  # §2a AD-0011. Shopify, no JSON-LD offers rendered — selectors verified.
+  # Default variant "Wham! / 1oz (30g)" $120. Listing states species:
+  # "Sturgeon (Acipenser Gueldenstaedtii) Roe, Salt" (osetra). Artist-tin
+  # branding. NOT the same as "The Only Caviar" (AD-0017).
+  - id: onecaviar-royal-ossetra-30g
+    vendor_name: "One Caviar"
+    url: "https://onecaviar.com/products/royal-ossetra-caviar"
+    brand_as_listed: "One Caviar"
+    species_as_listed: "Acipenser Gueldenstaedtii"
+    grade_as_listed: "Royal Ossetra"
+    net_weight_g: 30
+    selectors:
+      name: "h1"
+      sale_price: ".product-block-price"
+      description: ".product-block"
+
+  # §2a AD-0017. Shopify, no JSON-LD offers rendered — selectors verified
+  # against beluga-x page (same Dawn theme across catalog). Oscietra product,
+  # default "30g / 1.06oz". Claims "100% Italian". Distinct brand from One
+  # Caviar. Price/weight confirmed live on first scrape.
+  - id: theonlycaviar-oscietra-30g
+    vendor_name: "The Only Caviar"
+    url: "https://theonlycaviar.com/products/oscietra-caviar"
+    brand_as_listed: "The Only Caviar"
+    species_as_listed: "Oscietra"
+    origin_as_listed: "Italy"
+    net_weight_g: 30
+    selectors:
+      name: "h1.product__title"
+      sale_price: ".price__regular .price-item--regular"
+      description: ".product__description"
+
+  # §2a AD-0015. Custom Shopify theme, no JSON-LD offers — selectors
+  # verified. Imperial Osetra default "0.5 oz jar" ... page shows 1.0oz jar
+  # $390 as the headline; net_weight_g 28 (1oz) pending first-scrape
+  # confirmation. NOTE: KILO's baerii SKU ad (AD-0015) prints "TSAR NICOULAI
+  # FARMS / USA" on the tin — a source named on the label. Product handles
+  # carry "-copy" suffixes (cf. Imperia cluster pattern). Observation only.
+  - id: kilocaviar-imperial-osetra-1oz
+    vendor_name: "KILO Caviar"
+    url: "https://kilocaviar.com/collections/all/products/imperial-osetra"
+    brand_as_listed: "KILO Caviar"
+    species_as_listed: "Imperial Osetra"
+    net_weight_g: 28
+    selectors:
+      name: "h1.kilo-product__title"
+      sale_price: ".kilo-product__price"
