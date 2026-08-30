@@ -83,9 +83,14 @@ def next_observation_id(path: Path) -> int:
     return highest + 1
 
 
-def robots_allows(url: str, user_agent: str, cache: dict):
+def robots_allows(url: str, user_agent: str, cache: dict, session):
     """
     Check robots.txt. Fails closed: if we cannot read it, we do not fetch.
+
+    Fetched with OUR declared user agent via the session — the same identity
+    whose permission is being checked. (urllib.robotparser's own read() uses
+    the Python-urllib default agent, which some WAFs 403 even when the policy
+    itself allows everyone; that is a misread of the policy, not a disallow.)
 
     Returns (allowed: bool, status: str) so the log distinguishes "the site
     told us no" from "the site was unreachable" — those need different
@@ -94,13 +99,28 @@ def robots_allows(url: str, user_agent: str, cache: dict):
     parsed = urlparse(url)
     base = f"{parsed.scheme}://{parsed.netloc}"
     if base not in cache:
-        rp = urllib.robotparser.RobotFileParser()
-        rp.set_url(f"{base}/robots.txt")
         try:
-            rp.read()
-            cache[base] = rp
+            resp = session.get(f"{base}/robots.txt", timeout=15)
         except Exception as exc:
             cache[base] = f"unreachable: {type(exc).__name__}"
+        else:
+            rp = urllib.robotparser.RobotFileParser()
+            if resp.status_code == 200:
+                rp.parse(resp.text.splitlines())
+                cache[base] = rp
+            elif resp.status_code in (401, 403):
+                # The site refuses to even serve us the policy: conservative
+                # reading is that our agent is not welcome. Distinct from
+                # unreachable — do not retry around it.
+                rp.disallow_all = True
+                cache[base] = rp
+            elif 400 <= resp.status_code < 500:
+                # No robots.txt (e.g. 404): no rules, everything allowed.
+                rp.allow_all = True
+                cache[base] = rp
+            else:
+                # 5xx: the policy exists but can't be read right now.
+                cache[base] = f"unreachable: HTTP {resp.status_code}"
     rp = cache[base]
     if isinstance(rp, str):
         return False, rp
@@ -232,7 +252,7 @@ def scrape_one(listing, cfg, session, robots_cache, day_dir, observed_at):
         return row
 
     ua = cfg["user_agent"]
-    allowed, robots_status = robots_allows(url, ua, robots_cache)
+    allowed, robots_status = robots_allows(url, ua, robots_cache, session)
     if not allowed:
         if robots_status == "checked":
             row["scrape_status"] = "robots_disallowed"

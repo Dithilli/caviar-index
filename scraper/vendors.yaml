@@ -31,17 +31,115 @@ listings:
   #                     WooCommerce and BigCommerce stores emit it.
   # ---------------------------------------------------------------------
 
-  - id: example-vendor-osetra-30g
-    vendor_name: "Example Vendor"
-    url: "https://example.com/products/osetra-30g"
-    brand_as_listed: "Example Brand"
-    species_as_listed: "Ossetra"
-    grade_as_listed: "Reserve"
-    origin_as_listed: "Italy"
-    net_weight_g: 30
+  # WooCommerce variable product, one listing for four weight variations.
+  # No JSON-LD Product markup — selectors required (verified against archived
+  # HTML 2026-08-30). The .price element shows the range "$199.99 – $629.99";
+  # select_one takes the FIRST amount, i.e. the LOWEST price, which is the
+  # 4oz (113g) variation — net_weight_g matches that. If the lineup changes,
+  # the variations table below fires description drift; reparse snapshots.
+  # Species claim "grade A kaluga caviar" appears only in meta tags and the
+  # variations JSON attribute — unreachable by text selectors, but captured
+  # in every daily snapshot. origin: none stated on the listing.
+  - id: heycaviar-our-signature-caviar-4oz-113g
+    vendor_name: "Hey Caviar"
+    url: "https://heycaviar.com/product/our-signature-caviar/"
+    brand_as_listed: "Hey Caviar"
+    species_as_listed: "kaluga"
+    grade_as_listed: "grade A"
+    net_weight_g: 113
     selectors:
-      name: "h1.product-title"
-      sale_price: ".price--sale, .price"
-      list_price: ".price--compare-at"
+      name: "h1.product_title"
+      sale_price: ".summary .price .woocommerce-Price-amount"
+      # Variation lineup only — deliberately excludes the live review count,
+      # which would otherwise fire false drift alarms.
+      description: "table.variations"
+
+  # Shopify, JSON-LD Product present (verified 2026-08-30) — no selectors.
+  # JSON-LD offers[0] is sku KHR30, page variant title "30g", $219.00;
+  # net_weight_g matches that first offer. Page data states, verbatim:
+  # Species "Huso Dauricus & Acipenser Shrenckii", Origin "China".
+  - id: petrossian-royal-kaluga-huso-hybrid-30g
+    vendor_name: "Petrossian"
+    url: "https://www.petrossian.com/products/kaluga-huso-hybrid-caviar"
+    brand_as_listed: "Petrossian"
+    species_as_listed: "Huso Dauricus & Acipenser Shrenckii"
+    origin_as_listed: "China"
+    net_weight_g: 30
+
+  # Shopify, JSON-LD Product present (verified 2026-08-30) — no selectors.
+  # offers[0] is sku BK12, variant title "Slim", $52. Weight not stated in
+  # the variant title; 12g inferred from the vendor's sku pattern
+  # (BK30/BK50/BK125/BK500/BK1000 all match gram sizes) — verify on first
+  # purchase. Listing text: "Produced from carnivorous sturgeon native to
+  # the Amur River". No origin country stated.
+  - id: pearlstreet-keluga-slim-12g
+    vendor_name: "Pearl Street Caviar"
+    url: "https://pearlstreetcaviar.com/products/keluga"
+    brand_as_listed: "Pearl Street Caviar"
+    species_as_listed: "Keluga"
+    net_weight_g: 12
+
+  # Shopify, JSON-LD Product present (verified 2026-08-30) — no selectors.
+  # Single offer: the 1 KILO variant, $6,808; product name embeds the
+  # weight, so a default-variant change is visible in the name field.
+  # Listing states, verbatim: "Farmed Acipenser Gueldenstaedtii, China".
+  - id: caviarco-imperial-golden-osetra-1kg
+    vendor_name: "The Caviar Co."
+    url: "https://thecaviarco.com/products/imperial-golden-osetra-caviar"
+    brand_as_listed: "The Caviar Co."
+    species_as_listed: "Farmed Acipenser Gueldenstaedtii"
+    origin_as_listed: "China"
+    net_weight_g: 1000
+
+  # Shopify but NO JSON-LD Product markup — selectors required (verified
+  # against archived HTML 2026-08-30). Default variant is a promo:
+  # "100g (3.5oz) + 30g (1oz) Free" at $255.00 — net_weight_g 130 is what
+  # ships. If the promo ends, price and weight semantics shift; the
+  # description block below carries the species text and fires drift.
+  - id: imperia-kaluga-hybrid-reserve-100g-promo
+    vendor_name: "Imperia Caviar"
+    url: "https://imperiacaviar.com/products/kaluga"
+    brand_as_listed: "Imperia Caviar"
+    species_as_listed: "Kaluga Hybrid"
+    grade_as_listed: "Reserve"
+    net_weight_g: 130
+    selectors:
+      name: "h1"
+      sale_price: ".variant_main_price"
       description: ".product-description"
-      sold_out_marker: ".sold-out-badge"
+
+  # Shopify but NO JSON-LD Product markup — selectors required (verified
+  # against archived HTML 2026-08-30). Default variant "1oz" at $80.00;
+  # 1oz = 28g. Listing states, verbatim: "Origin: Farmed Acipenser
+  # transmontanus. Ecocert ™ certified sustainable, produced in Wilton, CA"
+  # — single-species US provenance; candidate §2f control if purchased.
+  - id: tsarnicoulai-classic-caviar-1oz
+    vendor_name: "Tsar Nicoulai"
+    url: "https://tsarnicoulai.com/products/classic-caviar"
+    brand_as_listed: "Tsar Nicoulai"
+    species_as_listed: "Farmed Acipenser transmontanus"
+    origin_as_listed: "Wilton, CA"
+    net_weight_g: 28
+    selectors:
+      name: "h1"
+      sale_price: ".price__regular .price-item--regular"
+      description: ".rte"
+
+  # Shopify but NO JSON-LD Product markup — selectors required (verified
+  # against archived HTML 2026-08-30). Default variant "50g" at $55.00
+  # with a $138.00 compare-at — the discount-claim pair is tracked via
+  # both price selectors. Listing states species, verbatim: "SPECIES
+  # Acipenser Guldenstadtii" (their spelling, not corrected — R3), and
+  # "origins in from the Caspian Sea" in the meta description.
+  - id: loftcaviar-ossetra-reserve-50g
+    vendor_name: "Loft Caviar"
+    url: "https://loftcaviar.com/products/ossetra-reserve"
+    brand_as_listed: "Loft Caviar"
+    species_as_listed: "Acipenser Guldenstadtii"
+    origin_as_listed: "Caspian Sea"
+    net_weight_g: 50
+    selectors:
+      name: "h1.ProductMeta__Title"
+      sale_price: ".ProductMeta__Price.Price--highlight"
+      list_price: ".ProductMeta__Price.Price--compareAt"
+      description: ".rte"
