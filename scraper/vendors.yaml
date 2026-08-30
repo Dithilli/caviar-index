@@ -399,3 +399,18 @@ listings:
     selectors:
       name: "h1.kilo-product__title"
       sale_price: ".kilo-product__price"
+
+  # §2a — RESOLVES the long-pending "Caviar Market" advertiser (AD-0005,
+  # AD-0010, AD-0022; IG @caviarmarketnyc). Shopify, JSON-LD Product.
+  # offers[0] sku 100G_KALUGA $99 -> net_weight_g 100 (VERIFY: variant
+  # dropdown lists 35g first; if the default is 35g the ppg differs).
+  # Notably NAMES its upstream: "Kaluga Queen Premium Caviar", species
+  # "Huso Dauricus x Acipenser Schrenkii" — i.e. sells the big Chinese
+  # producer's product under its own NYC storefront. Russian-heritage ad
+  # framing ("caviar kingpin grandpa", "pelmeni").
+  - id: caviarmarketnyc-kaluga-queen-100g
+    vendor_name: "Caviar Market"
+    url: "https://caviarmarketnyc.com/products/kaluga-queen-premium-black-caviar"
+    brand_as_listed: "Caviar Market"
+    species_as_listed: "Huso Dauricus x Acipenser Schrenkii"
+    net_weight_g: 100
