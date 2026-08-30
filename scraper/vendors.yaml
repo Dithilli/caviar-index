@@ -125,12 +125,6 @@ listings:
       sale_price: ".price__regular .price-item--regular"
       description: ".rte"
 
-  # Shopify but NO JSON-LD Product markup — selectors required (verified
-  # against archived HTML 2026-08-30). Default variant "50g" at $55.00
-  # with a $138.00 compare-at — the discount-claim pair is tracked via
-  # both price selectors. Listing states species, verbatim: "SPECIES
-  # Acipenser Guldenstadtii" (their spelling, not corrected — R3), and
-  # "origins in from the Caspian Sea" in the meta description.
   # Added 2026-08-30 after an ad reached the operator (§2a, AD-0004).
   # Shopify, JSON-LD Product present — no selectors. offers[0] "50g
   # (1.76oz)" $105. Listing states: "The royal union of the Kaluga and
@@ -195,6 +189,12 @@ listings:
       sale_price: ".price__regular .price-item--regular"
       description: ".rte"
 
+  # Shopify but NO JSON-LD Product markup — selectors required (verified
+  # against archived HTML 2026-08-30). Default variant "50g" at $55.00
+  # with a $138.00 compare-at — the discount-claim pair is tracked via
+  # both price selectors. Listing states species, verbatim: "SPECIES
+  # Acipenser Guldenstadtii" (their spelling, not corrected — R3), and
+  # "origins in from the Caspian Sea" in the meta description.
   - id: loftcaviar-ossetra-reserve-50g
     vendor_name: "Loft Caviar"
     url: "https://loftcaviar.com/products/ossetra-reserve"
@@ -207,3 +207,120 @@ listings:
       sale_price: ".ProductMeta__Price.Price--highlight"
       list_price: ".ProductMeta__Price.Price--compareAt"
       description: ".rte"
+
+  # ---- 2026-08-30 deep-dive wave (discovery via web sweep, not ads) ----
+
+  # Shopify, JSON-LD Product — no selectors. offers[0] sku PET-CAV-ROS-0030
+  # = "30g (1oz)" $91. LA 323 phone; product line ("River Beluga Hybrid",
+  # "Royal Ossetra", "Sevruga") parallels the Imperia-cluster naming.
+  # Observation only; no entity link found on archived pages.
+  - id: petrusco-royal-ossetra-30g
+    vendor_name: "Petrusco"
+    url: "https://petruscocaviar.com/products/petrusco-caviar-royal-ossetra"
+    brand_as_listed: "Petrusco"
+    species_as_listed: "Royal Ossetra"
+    net_weight_g: 30
+
+  # Shopify, no JSON-LD Product — selectors verified against archived HTML.
+  # Default variant "30g (FOR 1-2)" $105. Listing states: "Reserve Kaluga
+  # Caviar (Huso dauricus x Acipenser schrenckii) is our premium 'River
+  # Beluga'" — the River Beluga name and the $105/30g price point both
+  # recur across the DTC cluster. Observation only.
+  - id: caviere-reserve-kaluga-30g
+    vendor_name: "Caviére"
+    url: "https://caviereco.com/products/reserve-kaluga"
+    brand_as_listed: "Caviére"
+    species_as_listed: "Huso dauricus x Acipenser schrenckii"
+    net_weight_g: 30
+    selectors:
+      name: "h1"
+      sale_price: ".pdp-main-price-wrapper"
+      description: ".accordion__content.rte"
+
+  # Legacy NYC house (§2b category). Shopify, no JSON-LD Product —
+  # selectors verified against archived HTML. Default "50g/1.75oz" $250.
+  # Listing states: "Species Acipenser Gueldenstaedtii".
+  - id: caviarrusse-select-osetra-50g
+    vendor_name: "Caviar Russe"
+    url: "https://www.caviarrusse.com/products/select-osetra-caviar"
+    brand_as_listed: "Caviar Russe"
+    species_as_listed: "Acipenser Gueldenstaedtii"
+    net_weight_g: 50
+    selectors:
+      name: "h1"
+      sale_price: ".price__regular .price-item--regular"
+      description: ".rte"
+
+  # Shopify, no JSON-LD Product — selectors verified against archived HTML
+  # (same theme family as Caviar Russe). Default "30g (1 oz) | $160".
+  # Listing states: "a prized cross between Huso dauricus and Acipenser
+  # schrenckii sturgeon".
+  - id: astrea-kaluga-hybrid-30g
+    vendor_name: "Astrea Caviar"
+    url: "https://astreacaviar.com/products/astrea-kaluga-hybrid-caviar"
+    brand_as_listed: "Astrea Caviar"
+    species_as_listed: "Huso dauricus and Acipenser schrenckii"
+    net_weight_g: 30
+    selectors:
+      name: "h1"
+      sale_price: ".price__regular .price-item--regular"
+      description: ".rte"
+
+  # Multi-brand retailer (§2b category). Shopify, JSON-LD Product — no
+  # selectors. Single offer $175; page text states 50 g tin (verify on
+  # any purchase).
+  - id: caviarstar-vip-imperial-kaluga-50g
+    vendor_name: "Caviar Star"
+    url: "https://www.caviarstar.com/products/kaluga-hybrid-caviar-limited-edition"
+    brand_as_listed: "Caviar Star"
+    species_as_listed: "Kaluga Hybrid"
+    net_weight_g: 50
+
+  # ---- 2026-08-30 census wave 2 ----
+
+  # Legacy importer, Portland ME (§2b). Shopify, JSON-LD Product — no
+  # selectors. Single offer $78 = "1 ounce" variant (28g). American
+  # Hackleback — a US species listing, diversifies the corpus beyond
+  # kaluga/osetra.
+  - id: brownetrading-american-hackleback-1oz
+    vendor_name: "Browne Trading Company"
+    url: "https://brownetrading.com/collections/buy-caviar-online/products/american-hackleback-caviar"
+    brand_as_listed: "Browne Trading Company"
+    species_as_listed: "American Hackleback"
+    net_weight_g: 28
+
+  # Shopify, JSON-LD Product — no selectors. Default offer is the 1KG
+  # tin at $1,265 ($1.27/g); product name embeds the weight so a
+  # default-variant change is visible in the name field.
+  - id: tsarcaviar-imperial-kaluga-fusion-1kg
+    vendor_name: "Tsar Caviar"
+    url: "https://tsarcaviar.com/products/imperial-kaluga-fusion-caviar"
+    brand_as_listed: "Tsar Caviar"
+    species_as_listed: "Imperial Kaluga Fusion"
+    net_weight_g: 1000
+
+  # Oyster house retailer (§2b brick-and-mortar-adjacent). Shopify,
+  # JSON-LD Product — no selectors. offers[0] sku CAV-OSE-MAR-30 = 30g
+  # $199. Observation: "MAR" in the sku is consistent with Marshallberg
+  # Farm sourcing; not established.
+  - id: islandcreek-american-osetra-30g
+    vendor_name: "Island Creek Oysters"
+    url: "https://islandcreekoysters.com/collections/caviar/products/american-osetra-caviar"
+    brand_as_listed: "ICO"
+    species_as_listed: "American Osetra"
+    net_weight_g: 30
+
+  # NYC specialty importer. Notable for origin transparency: the product
+  # handle itself states "farmed-in-china". No JSON-LD Product; price
+  # selector verified against archived HTML ("1 oz" variant 7800 cents =
+  # $78 matches .add-to-cart-price). The theme's first h1 is the cart
+  # drawer, so no safe name selector — name is captured in the snapshot.
+  - id: regalis-imperial-black-kaluga-1oz
+    vendor_name: "Regalis Foods"
+    url: "https://regalisfoods.com/products/imperial-black-kaluga-farmed-in-china"
+    brand_as_listed: "Regalis Foods"
+    species_as_listed: "Imperial Black Kaluga"
+    origin_as_listed: "Farmed in China"
+    net_weight_g: 28
+    selectors:
+      sale_price: ".add-to-cart-price"
