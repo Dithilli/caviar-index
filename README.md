@@ -93,3 +93,11 @@ The audit trail is provable, not merely claimed. Three mechanisms:
    hashes of the project's governing documents, committed before data
    collection began. The documents are disclosed at publication; matching
    hashes prove they predate the data and were not revised to fit it.
+
+## Discovery
+
+`scraper/discover.py` (weekly via `.github/workflows/discover.yml`) scans the
+sitemaps of every tracked domain for caviar-ish product URLs not yet tracked
+and appends candidates to `data/discovery-log.csv` (append-only, audited like
+the price log). It reports; it never edits `vendors.yaml` — adding a listing
+stays a deliberate operator act, with claims recorded verbatim by hand.

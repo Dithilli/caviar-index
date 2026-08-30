@@ -35,6 +35,7 @@ ROOT = Path(__file__).resolve().parent.parent
 APPEND_ONLY = [
     "data/price-log.csv",
     "data/corrections.csv",
+    "data/discovery-log.csv",
     "anchors/pre-registration.sha256",
 ]
 
