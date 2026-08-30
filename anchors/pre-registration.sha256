@@ -1,0 +1,11 @@
+# Pre-registration anchors.
+# Each line: sha256 of a project governing document, anchored at the date
+# of the commit that introduced it — before the data it governs existed.
+# Labels are opaque by design; documents are disclosed at publication,
+# and a matching hash proves the document predates the data unaltered.
+# Append-only. Never edit or remove a line; supersede with a new one.
+doc-01  a6a041980592938799e4645d4c7242b03fc64d6ba1b85817cf9511aecbfe22f5
+doc-02  53f87b6a68b178edb764e64c90cf7070e4ae7e055d98e78a7209a3a117f80040
+doc-03  33fbe90599c942972b587c57714b560f33c281cac33abed21e1f6ad974354b6a
+doc-04  f95e095cbaa9988a5bd533fb6ab97dedd2f24bb523ac8076735c9137cf75dab6
+doc-05  41e4c3c67fb0eb027c5865e5dcf3e6dfaa294c50ef6e20a62398c9fb34c04c75

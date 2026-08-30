@@ -24,6 +24,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          # Full history: the post-commit audit verifies the whole chain.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -51,3 +54,8 @@ jobs:
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
             git push
           fi
+
+      # Pushes made with GITHUB_TOKEN don't trigger the audit workflow, so
+      # audit here too: a bad append turns THIS run red, immediately.
+      - name: Audit the appended data
+        run: python scraper/audit.py

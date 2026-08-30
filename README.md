@@ -71,3 +71,25 @@ be visible as a gap.
   you're only committing scraper output, that counts as activity — but if you
   pause the project, check that it's still running when you come back.
 - **Don't lower `delay_seconds`.** You're making a handful of requests a day.
+
+## Auditing
+
+The audit trail is provable, not merely claimed. Three mechanisms:
+
+1. **Branch protection.** `main` cannot be force-pushed or deleted, by anyone,
+   including the repo owner. History only grows.
+2. **The auditor** — `scraper/audit.py`, run by `.github/workflows/audit.yml`
+   on every push, on a daily schedule after the scrape, and again at the end
+   of each scrape run. Over the full commit history it verifies:
+   - append-only logs: every committed version of the data CSVs and the
+     anchors file is a byte-for-byte prefix of the next
+   - observation ids unique, sequential, gap-free
+   - snapshots write-once: never modified or deleted after commit
+   - every snapshot referenced by a row exists
+   - no duplicate (observed_at, listing_url) observation
+   A red X on the audit workflow is the alarm. Anyone can verify
+   independently: clone (not shallow) and run `python scraper/audit.py`.
+3. **Pre-registration anchors** — `anchors/pre-registration.sha256` holds
+   hashes of the project's governing documents, committed before data
+   collection began. The documents are disclosed at publication; matching
+   hashes prove they predate the data and were not revised to fit it.

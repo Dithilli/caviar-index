@@ -1,0 +1,33 @@
+name: audit
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # ~30 minutes after the daily scrape. Pushes made by the scrape workflow's
+    # GITHUB_TOKEN do not trigger other workflows, so this schedule is what
+    # audits the bot's own commits.
+    - cron: "40 14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify audit-trail invariants over full history
+        run: python scraper/audit.py
