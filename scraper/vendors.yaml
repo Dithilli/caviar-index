@@ -131,6 +131,51 @@ listings:
   # both price selectors. Listing states species, verbatim: "SPECIES
   # Acipenser Guldenstadtii" (their spelling, not corrected — R3), and
   # "origins in from the Caspian Sea" in the meta description.
+  # Added 2026-08-30 after an ad reached the operator (§2a, AD-0004).
+  # Shopify, JSON-LD Product present — no selectors. offers[0] "50g
+  # (1.76oz)" $105. Listing states: "The royal union of the Kaluga and
+  # Amur sturgeons (Huso Dauricus and Acipenser Schrencki)". Observation,
+  # no conclusion: product handles closely parallel Imperia's line.
+  - id: omcaviar-kaluga-hybrid-50g
+    vendor_name: "OM Caviar"
+    url: "https://omcaviar.com/products/kaluga-hybrid"
+    brand_as_listed: "OM Caviar"
+    species_as_listed: "Kaluga Hybrid"
+    net_weight_g: 50
+
+  # Added 2026-08-30 after an ad reached the operator (§2a, AD-0006).
+  # Shopify, no JSON-LD Product — selectors verified against archived
+  # HTML. Default variant 30g at $105 (50g $149, 125g $275 per page
+  # variant JSON). Listing details state: "Origin: Farmed (Acipenser
+  # Schrenckii)".
+  - id: eatcavi-amur-sturgeon-30g
+    vendor_name: "Cavi Caviar"
+    url: "https://eatcavi.com/products/amur-sturgeon-caviar"
+    brand_as_listed: "CAVI"
+    species_as_listed: "Amur Sturgeon"
+    net_weight_g: 30
+    selectors:
+      name: "h1"
+      sale_price: ".price__regular"
+      description: ".rte"
+
+  # Added 2026-08-30 after an ad reached the operator (§2a, AD-0007).
+  # Legacy producer (fills a §2b category gap). Shopify; JSON-LD Product
+  # present but carries no price — price selector verified against
+  # archived HTML. Default variant "28 g / 1 oz" at $85 (28g frag price
+  # 8500 cents). Meta states: "Species: Pacific White sturgeon, Acipenser
+  # transmontanus". No stable description block found; species claim
+  # lives in meta and is captured by the daily snapshot.
+  - id: calvisiususa-tradition-prestige-28g
+    vendor_name: "Calvisius Caviar USA"
+    url: "https://calvisiususa.com/products/calvisius-tradition-prestige"
+    brand_as_listed: "Calvisius Caviar"
+    species_as_listed: "Pacific White sturgeon, Acipenser transmontanus"
+    net_weight_g: 28
+    selectors:
+      name: "h1.product-info__title"
+      sale_price: ".product-info__price"
+
   # Added 2026-08-30 after an ad reached the operator (protocol §2a).
   # Shopify subscription storefront, no JSON-LD Product — selectors required
   # (verified against archived HTML 2026-08-30). Default variant "Caviar
