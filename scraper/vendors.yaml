@@ -131,6 +131,25 @@ listings:
   # both price selectors. Listing states species, verbatim: "SPECIES
   # Acipenser Guldenstadtii" (their spelling, not corrected — R3), and
   # "origins in from the Caspian Sea" in the meta description.
+  # Added 2026-08-30 after an ad reached the operator (protocol §2a).
+  # Shopify subscription storefront, no JSON-LD Product — selectors required
+  # (verified against archived HTML 2026-08-30). Default variant "Caviar
+  # Sampler: 100g Royal Ossetra + 100g Kaluga Hybrid Reserve", $200 → 200g.
+  # Observations, no conclusions drawn: product names match Imperia's line
+  # (see discovery-log rows for imperiacaviar.com tcc-* handles), and the
+  # .rte description text closely echoes loftcaviar.com's ("Due to
+  # incredible demand ... complimentary upgraded").
+  - id: caviarclub-caviar-sampler-200g
+    vendor_name: "The Caviar Club"
+    url: "https://thecaviarclub.com/products/a-carefully-curated-selection-of-our-best-caviars"
+    brand_as_listed: "The Caviar Club"
+    species_as_listed: "Royal Ossetra + Kaluga Hybrid Reserve"
+    net_weight_g: 200
+    selectors:
+      name: "h1.product-single__title"
+      sale_price: ".price__regular .price-item--regular"
+      description: ".rte"
+
   - id: loftcaviar-ossetra-reserve-50g
     vendor_name: "Loft Caviar"
     url: "https://loftcaviar.com/products/ossetra-reserve"

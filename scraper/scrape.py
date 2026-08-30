@@ -278,6 +278,11 @@ def scrape_one(listing, cfg, session, robots_cache, day_dir, observed_at):
     # --- archive BEFORE parsing (rule 1) --------------------------------
     day_dir.mkdir(parents=True, exist_ok=True)
     snap = day_dir / f"{listing['id']}.html"
+    if snap.exists():
+        # Snapshots are write-once (audit invariant A3). A same-day rerun
+        # writes a timestamped file instead of overwriting the earlier fetch.
+        stamp = observed_at[11:19].replace(":", "") + "Z"
+        snap = day_dir / f"{listing['id']}_{stamp}.html"
     try:
         snap.write_text(resp.text, encoding="utf-8")
         row["snapshot_path"] = str(snap.relative_to(ROOT))
