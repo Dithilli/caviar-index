@@ -414,3 +414,58 @@ listings:
     brand_as_listed: "Caviar Market"
     species_as_listed: "Huso Dauricus x Acipenser Schrenkii"
     net_weight_g: 100
+
+  # ---- 2026-09-01 ad batch new vendors (§2a) ----
+
+  # §2a AD-0034. Shopify, JSON-LD Product. Kaluga Classic offers[0]
+  # "28 g (1 oz.)" $80. OBSERVATION: this "Kaluga Classic" and the vendor's
+  # "Osetra Classic" share an IDENTICAL description ("Siberian Sturgeon
+  # (Acipenser baerii)...") and identical price ladder — flagged, not
+  # concluded. "N E" wordmark closely matches Wall Street Caviar / "NF
+  # Caviar" (AD-0020); possible link.
+  - id: numberone-kaluga-classic-28g
+    vendor_name: "Number One Caviar"
+    url: "https://numberonecaviar.com/products/kaluga-classic-caviar"
+    brand_as_listed: "Number One Caviar"
+    species_as_listed: "Kaluga (desc says Acipenser baerii)"
+    grade_as_listed: "Classic"
+    net_weight_g: 28
+
+  # §2a AD-0033. Celebrity brand (Meredith Marks). Shopify, JSON-LD Product.
+  # 24 Karat Kaluga offers[0] "30g / 1.0oz" $90. Page states verbatim:
+  # "(Huso Dauricus) ORIGIN China" — Chinese kaluga at $3/g on a celebrity
+  # label.
+  - id: meredithmarks-24karat-kaluga-30g
+    vendor_name: "Meredith Marks Caviar"
+    url: "https://meredithmarkscaviar.com/products/24-karat-kaluga"
+    brand_as_listed: "Meredith Marks Caviar"
+    species_as_listed: "Huso Dauricus"
+    grade_as_listed: "24 Karat"
+    origin_as_listed: "China"
+    net_weight_g: 30
+
+  # §2a AD-0030. NYC wholesaler (the "repacking" ad). Shopify, JSON-LD.
+  # California White Sturgeon offers[0] 28g $61 (may show out-of-stock;
+  # the row records in_stock honestly). Page states "Acipenser
+  # transmontanous" (their spelling) — a US white-sturgeon comparison.
+  - id: paramount-california-white-sturgeon-28g
+    vendor_name: "Paramount Caviar"
+    url: "https://paramountcaviar.com/products/california-sturgeon"
+    brand_as_listed: "Paramount Caviar"
+    species_as_listed: "Acipenser transmontanous"
+    origin_as_listed: "California"
+    net_weight_g: 28
+
+  # §2a AD-0029. Legacy retailer (Magento, flat URLs), JSON-LD Product.
+  # Beluga (Grade 00) offers[0] 14g $155 (~$11/g). Page states: "Huso huso",
+  # "American-farmed purebred Beluga", "by Sturgeon AquaFarms, from USA" —
+  # the rare legal US pure-beluga operation. VERIFY price/weight on first
+  # scrape (Magento multi-offer JSON-LD).
+  - id: markys-beluga-grade-00-14g
+    vendor_name: "Marky's Caviar"
+    url: "https://www.markys.com/beluga-caviar-grade-00/"
+    brand_as_listed: "Marky's Caviar"
+    species_as_listed: "Huso huso"
+    grade_as_listed: "Grade 00"
+    origin_as_listed: "USA (Sturgeon AquaFarms)"
+    net_weight_g: 14
