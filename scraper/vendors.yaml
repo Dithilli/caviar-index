@@ -469,3 +469,30 @@ listings:
     grade_as_listed: "Grade 00"
     origin_as_listed: "USA (Sturgeon AquaFarms)"
     net_weight_g: 14
+
+  # ---- 2026-09-03 ad batch new vendors (§2a) ----
+
+  # §2a AD-0035. Shopify, JSON-LD Product. Classic Ossetra offers[0] "30g"
+  # $120. (Also sells "24 Karat Gold Ossetra" novelty.) Verified via probe;
+  # first price row will come from the cloud cron.
+  - id: goldengoat-classic-ossetra-30g
+    vendor_name: "Golden Goat Caviar"
+    url: "https://goldengoatcaviar.com/products/classic-ossetra"
+    brand_as_listed: "Golden Goat Caviar"
+    species_as_listed: "Ossetra"
+    grade_as_listed: "Classic"
+    net_weight_g: 30
+
+  # §2a AD-0046. Legacy NYC gourmet grocer (fills the §2b grocery/retail
+  # category). Magento; JSON-LD carries no price, so selector (same theme
+  # family as Marky's). Smallest size 1.75oz (~50g), "From $180". Verified
+  # via probe; first price row from the cloud cron.
+  - id: citarella-osetra-1.75oz
+    vendor_name: "Citarella"
+    url: "https://www.citarella.com/shop/seafood/caviar/osetra-caviar.html"
+    brand_as_listed: "Citarella"
+    species_as_listed: "Osetra"
+    net_weight_g: 50
+    selectors:
+      name: "h1"
+      sale_price: ".product-info-price"
